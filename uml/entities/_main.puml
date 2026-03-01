@@ -1,0 +1,11 @@
+@startuml
+
+User "1" -- "many" Thought : user_id
+User "1" -- "many" ThoughtReply : user_id
+Thought "1" -- "many" ThoughtMedia : thought_id
+ThoughtReply "1" -- "many" ThoughtReplyMedia : thought_reply_id
+
+!include user.puml
+!include thought.puml
+!include media.puml
+@enduml

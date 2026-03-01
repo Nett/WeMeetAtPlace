@@ -1,0 +1,13 @@
+resources:
+  - ../../../base/postgres
+
+namespace: production
+
+patches:
+  - target:
+      kind: StatefulSet
+      name: wemeetatplace-postgres
+    patch: |-
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: 10Gi

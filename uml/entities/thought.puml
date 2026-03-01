@@ -1,0 +1,28 @@
+@startuml
+
+class Thought {
+  id : Int
+  title : String
+  text : String
+  created_at : Timestamp
+  updated_at : Timestamp
+}
+
+class ThoughtReply {
+    id: Int
+    user_id : Int
+    text : String
+    root_id : Int
+    parent_id : Int | NULL <<SRK>>
+    created_at : Timestamp
+    updated_at : Timestamp
+}
+
+note right of ThoughtReply::root_id
+  link to Thought::id (NOT NULL)
+end note
+
+Thought "1" -- "many" ThoughtReply : root_id
+ThoughtReply "many" -- "many" ThoughtReply : parent_id
+
+@enduml

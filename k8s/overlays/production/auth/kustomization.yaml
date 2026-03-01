@@ -1,0 +1,13 @@
+resources:
+  - ../../../base/auth
+
+namespace: production
+
+patches:
+  - target:
+      kind: Deployment
+      name: wemeetatplace-auth
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 3

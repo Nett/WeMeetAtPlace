@@ -1,0 +1,13 @@
+resources:
+  - ../../../base/server
+
+namespace: staging
+
+patches:
+  - target:
+      kind: Deployment
+      name: wemeetatplace-server
+    patch: |-
+      - op: replace
+        path: /spec/replicas
+        value: 1

@@ -1,0 +1,18 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wemeetatplace-auth
+  labels:
+    app: wemeetatplace-auth
+spec:
+  selector:
+    matchLabels:
+      app: wemeetatplace-auth
+  template:
+    metadata:
+      labels:
+        app: wemeetatplace-auth
+    spec:
+      containers:
+        - name: auth
+          image: auth:latest

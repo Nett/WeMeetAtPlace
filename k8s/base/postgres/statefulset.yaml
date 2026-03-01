@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wemeetatplace-postgres
+  labels:
+    app: wemeetatplace-postgres
+spec:
+  serviceName: wemeetatplace-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wemeetatplace-postgres
+  template:
+    metadata:
+      labels:
+        app: wemeetatplace-postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:18
+          envFrom:
+            - secretRef:
+                name: wemeetatplace-postgres
+          ports:
+            - containerPort: 5432
+          readinessProbe:
+            exec:
+              command:
+                - pg_isready
+                - -U
+                - wemeetatplace
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+              subPath: pgdata
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi

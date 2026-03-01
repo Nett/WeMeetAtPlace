@@ -1,0 +1,13 @@
+resources:
+  - ../../../base/nats
+
+namespace: production
+
+patches:
+  - target:
+      kind: StatefulSet
+      name: wemeetatplace-nats
+    patch: |-
+      - op: replace
+        path: /spec/volumeClaimTemplates/0/spec/resources/requests/storage
+        value: 5Gi

@@ -1,0 +1,24 @@
+@startuml
+
+class User {
+  id : Int
+  nickname : String <<required>>
+  avatar : String
+  password : String
+  created_at : Timestamp
+  updated_at : Timestamp
+}
+
+note right of User::avatar
+  keep file on S3
+end note
+
+note right of User
+  UQ: nickname
+end note
+
+note right of User::password
+  md5
+end note
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+
+class ThoughtMedia {
+    id : Int
+    thought_id : Int <<FK>>
+    type : MediaType
+    source : String
+    duration : Double
+    width : Int
+    height : Int
+    size : Int
+}
+
+class ThoughtReplyMedia {
+    id : Int
+    thought_reply_id : Int <<FK>>
+    root_id : Int
+    type : MediaType
+    source : String
+    duration : Double
+    width : Int
+    height : Int
+    size : Int
+}
+
+ThoughtMedia ..> MediaType : type
+ThoughtReplyMedia ..> MediaType : type
+
+!include types.puml
+@enduml

@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wemeetatplace-nats
+  labels:
+    app: wemeetatplace-nats
+spec:
+  serviceName: wemeetatplace-nats
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wemeetatplace-nats
+  template:
+    metadata:
+      labels:
+        app: wemeetatplace-nats
+    spec:
+      containers:
+        - name: nats
+          image: nats:2.12
+          args:
+            - --jetstream
+            - --store_dir=/data
+          ports:
+            - containerPort: 4222
+              name: client
+            - containerPort: 8222
+              name: monitoring
+          readinessProbe:
+            httpGet:
+              path: /healthz?js-enabled-only=true
+              port: 8222
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          volumeMounts:
+            - name: data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
