@@ -15,4 +15,5 @@ spec:
     spec:
       containers:
         - name: auth
-          image: auth:latest
+          image: busybox:latest
+          command: ["sleep", "infinity"]
