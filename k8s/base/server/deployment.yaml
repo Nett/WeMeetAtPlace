@@ -14,7 +14,10 @@ spec:
         app: wemeetatplace-server
     spec:
       containers:
-        - name: nginx
-          image: nginx:1.28
+        - name: server
+          image: ghcr.io/nett/wemeetatplace-server:latest
+          env:
+            - name: APPLICATION_NAME
+              value: WeMeetAt.Place
           ports:
-            - containerPort: 80
+            - containerPort: 3000

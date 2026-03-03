@@ -11,3 +11,6 @@ patches:
       - op: replace
         path: /spec/replicas
         value: 1
+      - op: replace
+        path: /spec/template/spec/containers/0/env/0/value
+        value: WeMeetAt.Place-STAGING
