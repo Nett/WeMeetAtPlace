@@ -13,6 +13,8 @@ spec:
       labels:
         app: wemeetatplace-server
     spec:
+      imagePullSecrets:
+        - name: ghcr-secret
       containers:
         - name: server
           image: ghcr.io/nett/wemeetatplace-server:latest

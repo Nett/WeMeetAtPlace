@@ -46,6 +46,18 @@ else
 fi
 
 echo ""
+echo "=== Creating ghcr.io pull secret ==="
+if kubectl get secret ghcr-secret -n staging &> /dev/null; then
+  echo "Secret ghcr-secret already exists, skipping creation."
+else
+  kubectl create secret docker-registry ghcr-secret \
+    --namespace=staging \
+    --docker-server=ghcr.io \
+    --docker-username=Nett \
+    --docker-password="${GITHUB_TOKEN:?Set GITHUB_TOKEN env var before running this script}"
+fi
+
+echo ""
 echo "=== Getting ArgoCD initial admin password ==="
 ARGOCD_PASSWORD=$(argocd admin initial-password -n argocd | head -1)
 echo "Initial password: $ARGOCD_PASSWORD"
