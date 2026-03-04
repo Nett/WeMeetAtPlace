@@ -16,6 +16,7 @@ if [ ! -f "$ENV_FILE" ]; then
 fi
 
 cat > "$ENV_FILE" <<EOF
+NODE_ENV=development
 APPLICATION_NAME=WeMeetAtPlace-DEV
 POSTGRES_DB=$POSTGRES_DB
 POSTGRES_USER=$POSTGRES_USER

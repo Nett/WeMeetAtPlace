@@ -1,0 +1,15 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wemeetatplace-server
+spec:
+  replicas: 1
+  template:
+    spec:
+      containers:
+        - name: server
+          env:
+            - name: APPLICATION_NAME
+              value: WeMeetAt.Place
+            - name: NODE_ENV
+              value: staging

@@ -4,10 +4,4 @@ resources:
 namespace: production
 
 patches:
-  - target:
-      kind: Deployment
-      name: wemeetatplace-server
-    patch: |-
-      - op: replace
-        path: /spec/replicas
-        value: 3
+  - path: deployment-patch.yaml
