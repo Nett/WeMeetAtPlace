@@ -5,6 +5,7 @@ metadata:
   labels:
     app: wemeetatplace-server
 spec:
+  revisionHistoryLimit: 3
   selector:
     matchLabels:
       app: wemeetatplace-server
