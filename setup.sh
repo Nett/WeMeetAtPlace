@@ -72,18 +72,72 @@ else
 fi
 
 echo ""
-echo "=== Getting ArgoCD initial admin password ==="
-ARGOCD_PASSWORD=$(argocd admin initial-password -n argocd | head -1)
-echo "Initial password: $ARGOCD_PASSWORD"
+echo "=== ArgoCD admin password ==="
+if [ -n "${ARGOCD_PASSWORD:-}" ]; then
+  echo "Using ARGOCD_PASSWORD from environment."
+elif [ -t 0 ]; then
+  echo "Enter ArgoCD admin password (or press Enter to fetch initial password for first-time setup):"
+  read -rs ARGOCD_PASSWORD
+  echo ""
+  if [ -z "$ARGOCD_PASSWORD" ]; then
+    ARGOCD_PASSWORD=$(argocd admin initial-password -n argocd | head -1)
+    echo "Initial password: $ARGOCD_PASSWORD"
+  fi
+else
+  ARGOCD_PASSWORD=$(argocd admin initial-password -n argocd | head -1)
+  echo "Initial password: $ARGOCD_PASSWORD"
+fi
 
 echo ""
 echo "=== Port-forwarding ArgoCD UI (background) ==="
-kubectl port-forward svc/argocd-server -n argocd 8080:443 &
-sleep 3
+if command -v lsof &>/dev/null && lsof -i :8080 -sTCP:LISTEN -t &>/dev/null; then
+  echo "Port 8080 already in use, skipping port-forward (ArgoCD may already be forwarded)."
+else
+  kubectl port-forward svc/argocd-server -n argocd 8080:443 &
+  sleep 3
+fi
 
 echo ""
 echo "=== Logging into ArgoCD ==="
-argocd login localhost:8080 --username admin --password "$ARGOCD_PASSWORD" --insecure --grpc-web
+login_ok=false
+run_login() {
+  if [ "$1" = "core" ]; then
+    argocd login localhost:8080 --plaintext --core
+  else
+    argocd login localhost:8080 --username admin --password "$ARGOCD_PASSWORD" --insecure --plaintext
+  fi
+}
+for method in core password; do
+  run_login "$method" &
+  login_pid=$!
+  for _ in $(seq 1 10); do
+    sleep 1
+    if ! kill -0 $login_pid 2>/dev/null; then
+      wait $login_pid 2>/dev/null
+      login_exit=$?
+      if [ "$login_exit" = 0 ]; then
+        login_ok=true
+        echo "Logged in."
+      fi
+      break
+    fi
+  done
+  kill $login_pid 2>/dev/null || true
+  [ "$login_ok" = true ] && break
+done
+if [ "$login_ok" = false ]; then
+  echo ""
+  echo "ArgoCD login failed or timed out (10s). Port 8080 may have a different service."
+  echo "Run manually: ./port-forward.sh  then  argocd login localhost:8080 --plaintext --core"
+  echo ""
+  if [ -t 0 ]; then
+    read -p "Continue without ArgoCD login? (y/n) " -n 1 -r
+    echo
+    [[ $REPLY =~ ^[Yy]$ ]] || exit 1
+  else
+    exit 1
+  fi
+fi
 
 echo ""
 echo "=== Creating ArgoCD project ==="
@@ -109,6 +163,10 @@ EOF
 
 echo ""
 echo "=== Adding repo to ArgoCD (SSH deploy key) ==="
+# With --core, argocd uses namespace from kube context; ensure it's argocd
+SAVED_NS=$(kubectl config view --minify -o jsonpath='{.contexts[0].context.namespace}' 2>/dev/null || true)
+kubectl config set-context --current --namespace=argocd 2>/dev/null || true
+
 argocd repo add git@github.com:Nett/WeMeetAtPlace.git \
   --ssh-private-key-path "${ARGOCD_SSH_KEY:=$HOME/.ssh/argocd_github}"
 
@@ -135,6 +193,8 @@ echo ""
 echo "=== Syncing (infra first, then apps) ==="
 argocd app sync wemeetatplace-infra
 argocd app sync wemeetatplace-apps
+
+[ -n "$SAVED_NS" ] && kubectl config set-context --current --namespace="$SAVED_NS" 2>/dev/null || true
 
 echo ""
 echo "=== Done ==="

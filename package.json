@@ -24,11 +24,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config apps/server/test/jest-e2e.json",
-    "port-forward": "sh port-forward.sh",
-    "docker:build:server": "docker build -f Dockerfile -t ghcr.io/nett/wemeetatplace-server:latest .",
-    "docker:build:auth": "docker build -f Dockerfile.auth -t ghcr.io/nett/wemeetatplace-auth:latest .",
-    "docker:push:server": "docker push ghcr.io/nett/wemeetatplace-server:latest",
-    "docker:push:auth": "docker push ghcr.io/nett/wemeetatplace-auth:latest"
+    "port-forward": "sh port-forward.sh"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
