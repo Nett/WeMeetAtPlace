@@ -9,6 +9,7 @@ import { join } from 'node:path';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: join(__dirname, '..', '.env'),
     }),
     I18nModule.forRoot({
       fallbackLanguage: 'en',

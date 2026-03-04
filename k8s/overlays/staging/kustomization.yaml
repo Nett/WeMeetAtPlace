@@ -1,5 +1,5 @@
+# Root overlay - for manual kubectl apply -k only.
+# ArgoCD uses infra and apps separately.
 resources:
-  - server
-  - auth
-  - postgres
-  - nats
+  - infra
+  - apps

@@ -46,6 +46,20 @@ else
 fi
 
 echo ""
+echo "=== Creating Postgres secret ==="
+if kubectl get secret wemeetatplace-postgres -n staging &> /dev/null; then
+  echo "Secret wemeetatplace-postgres already exists, skipping creation."
+else
+  kubectl create secret generic wemeetatplace-postgres \
+    --namespace=staging \
+    --from-literal=POSTGRES_DB=emeetatplace_staging \
+    --from-literal=POSTGRES_USER=emeetatplace_staging_user \
+    --from-literal=POSTGRES_PASSWORD="${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD env var before running this script}" \
+    --from-literal=POSTGRES_HOST=wemeetatplace-postgres \
+    --from-literal=POSTGRES_PORT=5432
+fi
+
+echo ""
 echo "=== Creating ghcr.io pull secret ==="
 if kubectl get secret ghcr-secret -n staging &> /dev/null; then
   echo "Secret ghcr-secret already exists, skipping creation."
@@ -99,19 +113,28 @@ argocd repo add git@github.com:Nett/WeMeetAtPlace.git \
   --ssh-private-key-path "${ARGOCD_SSH_KEY:=$HOME/.ssh/argocd_github}"
 
 echo ""
-echo "=== Creating ArgoCD application ==="
-argocd app create wemeetatplace \
+echo "=== Creating ArgoCD applications (infra + apps) ==="
+argocd app create wemeetatplace-infra --upsert \
   --project wemeetatplace \
   --repo git@github.com:Nett/WeMeetAtPlace.git \
-  --path k8s/overlays/staging \
+  --path k8s/overlays/staging/infra \
   --dest-server https://kubernetes.default.svc \
   --dest-namespace staging
 
-argocd app set wemeetatplace --sync-policy automated --auto-prune --self-heal
+argocd app create wemeetatplace-apps --upsert \
+  --project wemeetatplace \
+  --repo git@github.com:Nett/WeMeetAtPlace.git \
+  --path k8s/overlays/staging/apps \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace staging
+
+argocd app set wemeetatplace-infra --sync-policy automated --auto-prune --self-heal
+argocd app set wemeetatplace-apps --sync-policy automated --auto-prune --self-heal
 
 echo ""
-echo "=== Syncing ==="
-argocd app sync wemeetatplace
+echo "=== Syncing (infra first, then apps) ==="
+argocd app sync wemeetatplace-infra
+argocd app sync wemeetatplace-apps
 
 echo ""
 echo "=== Done ==="

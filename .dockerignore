@@ -1,0 +1,47 @@
+# Dependencies (installed fresh in container)
+node_modules
+.pnpm-store
+
+# Build output (built in container)
+dist
+build
+
+# Environment (never bake into image)
+.env
+.env.*
+
+# Git
+.git
+.gitignore
+
+# Docs and config (not needed for runtime)
+*.md
+.prettierrc
+.eslintrc*
+eslint.config.*
+
+# IDEs
+.idea
+.vscode
+
+# Tests (not needed for prod image)
+coverage
+.nyc_output
+**/*.spec.ts
+**/*.e2e-spec.ts
+
+# Logs and temp
+*.log
+.temp
+.tmp
+
+# Scripts (not needed in image)
+setup.sh
+docker.sh
+env.sh
+port-forward.sh
+
+# Other
+.DS_Store
+k8s
+uml

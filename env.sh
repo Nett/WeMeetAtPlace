@@ -2,7 +2,7 @@
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
-ENV_FILE="$SCRIPT_DIR/application/.env"
+APPS_DIR="$SCRIPT_DIR/apps"
 
 echo "=== Fetching Postgres secret from staging namespace ==="
 
@@ -10,19 +10,54 @@ POSTGRES_DB=$(kubectl get secret wemeetatplace-postgres -n staging -o jsonpath='
 POSTGRES_USER=$(kubectl get secret wemeetatplace-postgres -n staging -o jsonpath='{.data.POSTGRES_USER}' | base64 -d)
 POSTGRES_PASSWORD=$(kubectl get secret wemeetatplace-postgres -n staging -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
 
-if [ ! -f "$ENV_FILE" ]; then
-  echo "Creating $ENV_FILE"
-  touch "$ENV_FILE"
-fi
+for app_dir in "$APPS_DIR"/*/; do
+  app_name=$(basename "$app_dir")
+  env_file="$app_dir.env"
 
-cat > "$ENV_FILE" <<EOF
+  if [ ! -f "$env_file" ]; then
+    echo "Creating $env_file"
+    touch "$env_file"
+  fi
+
+  case "$app_name" in
+    server)
+      cat > "$env_file" <<EOF
 NODE_ENV=development
-APPLICATION_NAME=WeMeetAtPlace-DEV
+APPLICATION_NAME=WeMeetAtPlace
 POSTGRES_DB=$POSTGRES_DB
 POSTGRES_USER=$POSTGRES_USER
 POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 EOF
+      ;;
+    auth)
+      cat > "$env_file" <<EOF
+NODE_ENV=development
+APPLICATION_NAME=WeMeetAtPlace-Auth
+PORT=3001
+POSTGRES_DB=$POSTGRES_DB
+POSTGRES_USER=$POSTGRES_USER
+POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+EOF
+      ;;
+    *)
+      cat > "$env_file" <<EOF
+NODE_ENV=development
+APPLICATION_NAME=WeMeetAtPlace-$app_name
+POSTGRES_DB=$POSTGRES_DB
+POSTGRES_USER=$POSTGRES_USER
+POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+POSTGRES_HOST=localhost
+POSTGRES_PORT=5432
+EOF
+      ;;
+  esac
 
-echo "Written to $ENV_FILE"
+  echo "Written to $env_file"
+done
+
+echo ""
+echo "For local dev, run from repo root: pnpm dev:server | pnpm dev:auth"

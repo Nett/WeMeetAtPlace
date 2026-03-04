@@ -1,0 +1,5 @@
+resources:
+  - ../postgres
+  - ../nats
+
+namespace: production

@@ -19,6 +19,9 @@ spec:
       containers:
         - name: server
           image: ghcr.io/nett/wemeetatplace-server:latest
+          envFrom:
+            - secretRef:
+                name: wemeetatplace-postgres
           env:
             - name: APPLICATION_NAME
               value: WeMeetAt.Place

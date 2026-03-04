@@ -9,13 +9,13 @@ case "$1" in
     echo "$GITHUB_TOKEN" | docker login ghcr.io -u Nett --password-stdin
     ;;
   build)
-    docker build -t "$IMAGE" ./application
+    docker build -f Dockerfile -t "$IMAGE" .
     ;;
   push)
     docker push "$IMAGE"
     ;;
   deploy)
-    docker build -t "$IMAGE" ./application
+    docker build -f Dockerfile -t "$IMAGE" .
     docker push "$IMAGE"
     ;;
   *)
