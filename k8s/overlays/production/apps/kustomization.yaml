@@ -1,5 +1,5 @@
 resources:
   - ../server
-  - ../auth
+  - ../user
 
 namespace: production

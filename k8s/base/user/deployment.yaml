@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wemeetatplace-user
+  labels:
+    app: wemeetatplace-user
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wemeetatplace-user
+  template:
+    metadata:
+      labels:
+        app: wemeetatplace-user
+    spec:
+      imagePullSecrets:
+        - name: ghcr-secret
+      containers:
+        - name: user
+          image: ghcr.io/nett/wemeetatplace-user:latest
+          envFrom:
+            - secretRef:
+                name: wemeetatplace-postgres
+          env:
+            - name: NATS_URL
+              value: nats://wemeetatplace-nats:4222
+            - name: NODE_ENV
+              value: production
+          livenessProbe:
+            exec:
+              command: ["sh", "-c", "kill -0 1"]
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command: ["sh", "-c", "kill -0 1"]
+            initialDelaySeconds: 5
+            periodSeconds: 5

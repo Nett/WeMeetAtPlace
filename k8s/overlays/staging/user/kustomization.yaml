@@ -1,13 +1,13 @@
 resources:
-  - ../../../base/auth
+  - ../../../base/user
 
-namespace: production
+namespace: staging
 
 patches:
   - target:
       kind: Deployment
-      name: wemeetatplace-auth
+      name: wemeetatplace-user
     patch: |-
       - op: replace
         path: /spec/replicas
-        value: 3
+        value: 1

@@ -3,7 +3,7 @@
 ## Monorepo structure
 
 - `apps/server` – main NestJS app (views, API)
-- `apps/auth` – auth service (placeholder)
+- `apps/user` – user service (placeholder)
 - `libs/postgres` – shared Postgres module
 
 ## Backend setup
@@ -24,5 +24,5 @@ pnpm i -g @nestjs/cli
 ```bash
 pnpm install
 pnpm dev:server    # server on :3000
-pnpm dev:auth      # auth on :3001
+pnpm dev:user     # user on :3001
 ```

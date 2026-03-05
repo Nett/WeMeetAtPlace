@@ -31,10 +31,10 @@ POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 EOF
       ;;
-    auth)
+    user)
       cat > "$env_file" <<EOF
 NODE_ENV=development
-APPLICATION_NAME=WeMeetAtPlace-Auth
+APPLICATION_NAME=WeMeetAtPlace-User
 PORT=3001
 POSTGRES_DB=$POSTGRES_DB
 POSTGRES_USER=$POSTGRES_USER
@@ -60,4 +60,4 @@ EOF
 done
 
 echo ""
-echo "For local dev, run from repo root: pnpm dev:server | pnpm dev:auth"
+echo "For local dev, run from repo root: pnpm dev:server | pnpm dev:user"

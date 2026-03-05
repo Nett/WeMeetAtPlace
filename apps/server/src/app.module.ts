@@ -9,7 +9,8 @@ import { join } from 'node:path';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: join(__dirname, '..', '.env'),
+      ignoreEnvFile: ['production', 'staging'].includes(process.env.NODE_ENV || ''),
+      envFilePath: join(process.cwd(), 'apps', 'server', '.env'),
     }),
     I18nModule.forRoot({
       fallbackLanguage: 'en',

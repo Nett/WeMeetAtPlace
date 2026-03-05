@@ -1,4 +1,4 @@
-# Build from monorepo root: docker build -f apps/auth/Dockerfile -t <image> .
+# Build from monorepo root: docker build -f apps/user/Dockerfile -t <image> .
 FROM node:24-alpine AS base
 RUN corepack enable && corepack prepare pnpm@latest --activate
 WORKDIR /app
@@ -10,13 +10,12 @@ RUN pnpm install --frozen-lockfile
 FROM base AS build
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-RUN pnpm build:auth
+RUN pnpm build:user
 
 FROM node:24-alpine AS production
 WORKDIR /app
-COPY --from=build /app/apps/auth/dist ./dist
+COPY --from=build /app/apps/user/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./
 
-EXPOSE 3001
 CMD ["node", "dist/main.js"]

@@ -20,14 +20,14 @@ case "$1" in
     docker push "$IMAGE"
     ;;
   *)
-    echo "Usage: ./docker.sh {login|build|push|deploy} [server|auth]"
+    echo "Usage: ./docker.sh {login|build|push|deploy} [server|user]"
     echo ""
     echo "  login   - authenticate with GitHub Container Registry"
     echo "  build   - build the Docker image (default: server)"
     echo "  push    - push the image to ghcr.io"
     echo "  deploy  - build and push in one step"
     echo ""
-    echo "Examples: ./docker.sh build server   ./docker.sh deploy auth"
+    echo "Examples: ./docker.sh build server   ./docker.sh deploy user"
     exit 1
     ;;
 esac

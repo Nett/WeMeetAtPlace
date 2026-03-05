@@ -7,6 +7,11 @@ dist
 build
 *.tsbuildinfo
 
+# Prevent compiled output in lib source dirs
+libs/*/src/**/*.js
+libs/*/src/**/*.d.ts
+libs/*/src/**/*.js.map
+
 # Environment
 .env
 .env.*
