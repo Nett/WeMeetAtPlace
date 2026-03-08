@@ -1,5 +1,14 @@
 resources:
   - ../server
   - ../user
+  - ../../../base/ingress
 
 namespace: production
+patches:
+  - target:
+      kind: Ingress
+      name: wemeetatplace
+    patch: |-
+      - op: replace
+        path: /spec/rules/0/host
+        value: wemeetat.place

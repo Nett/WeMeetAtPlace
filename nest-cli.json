@@ -38,6 +38,24 @@
       "compilerOptions": {
         "tsConfigPath": "libs/postgres/tsconfig.lib.json"
       }
+    },
+    "contracts": {
+      "type": "library",
+      "root": "libs/contracts",
+      "entryFile": "index",
+      "sourceRoot": "libs/contracts/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/contracts/tsconfig.lib.json"
+      }
+    },
+    "nats": {
+      "type": "library",
+      "root": "libs/nats",
+      "entryFile": "index",
+      "sourceRoot": "libs/nats/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/nats/tsconfig.lib.json"
+      }
     }
   }
 }

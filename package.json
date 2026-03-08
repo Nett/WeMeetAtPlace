@@ -19,6 +19,9 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node apps/server/dist/main.js",
     "lint": "eslint \"{apps,libs}/**/*.ts\" --fix",
+    "migration:generate:user": "typeorm-ts-node-commonjs migration:generate -d apps/user/src/data-source.ts",
+    "migration:run:user": "typeorm-ts-node-commonjs migration:run -d apps/user/src/data-source.ts",
+    "migration:revert:user": "typeorm-ts-node-commonjs migration:revert -d apps/user/src/data-source.ts",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -33,6 +36,8 @@
     "@nestjs/microservices": "^11.1.16",
     "@nestjs/platform-express": "^11.1.16",
     "@nestjs/typeorm": "^11.0.0",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.15.1",
     "hbs": "^4.2.0",
     "joi": "^18.0.2",
     "nats": "^2.29.3",
@@ -89,7 +94,9 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/postgres(|/.*)$": "<rootDir>/libs/postgres/src/$1"
+      "^@app/postgres(|/.*)$": "<rootDir>/libs/postgres/src/$1",
+      "^@app/contracts(|/.*)$": "<rootDir>/libs/contracts/src/$1",
+      "^@app/nats(|/.*)$": "<rootDir>/libs/nats/src/$1"
     }
   },
   "engines": {

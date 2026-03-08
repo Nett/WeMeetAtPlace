@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { I18nModule, AcceptLanguageResolver } from 'nestjs-i18n';
 import { join } from 'node:path';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { join } from 'node:path';
       },
       resolvers: [AcceptLanguageResolver],
     }),
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

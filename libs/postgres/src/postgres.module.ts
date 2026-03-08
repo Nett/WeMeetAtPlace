@@ -19,6 +19,7 @@ import { PostgresService } from './postgres.service';
           password: config.password,
           database: config.database,
           synchronize: false,
+          autoLoadEntities: true,
         };
       },
     }),

@@ -23,7 +23,11 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@app/postgres": ["libs/postgres/src"],
-      "@app/postgres/*": ["libs/postgres/src/*"]
+      "@app/postgres/*": ["libs/postgres/src/*"],
+      "@app/contracts": ["libs/contracts/src"],
+      "@app/contracts/*": ["libs/contracts/src/*"],
+      "@app/nats": ["libs/nats/src"],
+      "@app/nats/*": ["libs/nats/src/*"]
     }
   }
 }
