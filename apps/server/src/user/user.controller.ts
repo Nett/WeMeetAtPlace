@@ -3,7 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserDto, CREATE_USER_PATTERN } from '@app/contracts';
 import { NATS_CLIENT } from '@app/nats';
 
-@Controller('api/users')
+@Controller('user')
 export class UserController {
   constructor(@Inject(NATS_CLIENT) private readonly natsClient: ClientProxy) {}
 

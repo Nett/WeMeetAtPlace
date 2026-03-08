@@ -36,6 +36,24 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /data
+        - name: nats-exporter
+          image: natsio/prometheus-nats-exporter:latest
+          args:
+            - -varz
+            - -connz
+            - -subz
+            - -jsz=all
+            - http://127.0.0.1:8222
+          ports:
+            - containerPort: 7777
+              name: metrics
+          readinessProbe:
+            httpGet:
+              path: /metrics
+              port: 7777
+            initialDelaySeconds: 5
+            periodSeconds: 10
+
   volumeClaimTemplates:
     - metadata:
         name: data

@@ -17,6 +17,7 @@ export class UserController {
     }
 
     // TODO: create user in DB
+    console.log('create user', dto);
     return { id: 1, ...dto };
   }
 }
