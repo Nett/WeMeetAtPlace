@@ -46,3 +46,11 @@ Revert the last migration:
 ```bash
 npm run migration:revert:user
 ```
+
+Run setup script with alredy existing ArgoCD password
+
+```bash
+ARGOCD_PASSWORD=_-PASSWD-_ ./setup.sh
+```
+
+

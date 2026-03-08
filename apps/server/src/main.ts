@@ -11,8 +11,15 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
 
-  app.useStaticAssets(join(__dirname, '..', 'public'));
-  app.setBaseViewsDir(join(__dirname, '..', 'views'));
+  const isContainer = ['production', 'staging'].includes(process.env.NODE_ENV || '');
+  const viewsDir = isContainer
+    ? join(process.cwd(), 'views')
+    : join(process.cwd(), 'apps', 'server', 'views');
+  const publicDir = isContainer
+    ? join(process.cwd(), 'public')
+    : join(process.cwd(), 'apps', 'server', 'public');
+  app.useStaticAssets(publicDir);
+  app.setBaseViewsDir(viewsDir);
   app.setViewEngine('hbs');
 
   const i18n = app.get(I18nService);

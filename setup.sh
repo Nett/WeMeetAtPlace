@@ -20,6 +20,14 @@ else
 fi
 
 echo ""
+echo "=== Enabling ingress addon ==="
+minikube addons enable ingress
+
+echo ""
+echo "=== Patching ingress controller to LoadBalancer (for minikube tunnel) ==="
+kubectl patch svc ingress-nginx-controller -n ingress-nginx -p '{"spec":{"type":"LoadBalancer"}}' --type=merge 2>/dev/null || true
+
+echo ""
 echo "=== Installing ArgoCD ==="
 if kubectl get namespace argocd &> /dev/null; then
   echo "Namespace argocd already exists, skipping creation."
@@ -201,6 +209,10 @@ echo "=== Done ==="
 echo "ArgoCD UI: https://localhost:8080"
 echo "Username: admin"
 echo "Password: $ARGOCD_PASSWORD"
+echo ""
+echo "For ingress (http://staging.wemeetatplace.local):"
+echo "  Run 'minikube tunnel' in another terminal (requires sudo)"
+echo "  Add '127.0.0.1 staging.wemeetatplace.local' to /etc/hosts"
 echo ""
 echo "Change your password with:"
 echo "  argocd account update-password"

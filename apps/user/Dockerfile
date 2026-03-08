@@ -18,4 +18,4 @@ COPY --from=build /app/apps/user/dist ./dist
 COPY --from=build /app/node_modules ./node_modules
 COPY --from=build /app/package.json ./
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "dist/apps/user/src/main.js"]

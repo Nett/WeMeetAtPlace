@@ -17,7 +17,7 @@
     "dev:server": "nest start server --watch",
     "dev:user": "nest start user --watch",
     "start:debug": "nest start --debug --watch",
-    "start:prod": "node apps/server/dist/main.js",
+    "start:prod": "node apps/server/dist/apps/server/src/main.js",
     "lint": "eslint \"{apps,libs}/**/*.ts\" --fix",
     "migration:generate:user": "typeorm-ts-node-commonjs migration:generate -d apps/user/src/data-source.ts",
     "migration:run:user": "typeorm-ts-node-commonjs migration:run -d apps/user/src/data-source.ts",
