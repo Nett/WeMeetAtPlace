@@ -25,6 +25,8 @@ spec:
           env:
             - name: APPLICATION_NAME
               value: WeMeetAt.Place
+            - name: NATS_URL
+              value: nats://wemeetatplace-nats:4222
             - name: NODE_ENV
               value: production
           ports:

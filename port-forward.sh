@@ -11,6 +11,7 @@ kubectl port-forward svc/wemeetatplace-postgres -n staging 5432:5432 &
 kubectl port-forward svc/wemeetatplace-nats -n staging 4222:4222 &
 kubectl port-forward svc/wemeetatplace-nats -n staging 8222:8222 &
 kubectl port-forward svc/wemeetatplace-nats -n staging 7777:7777 &
+kubectl port-forward svc/wemeetatplace-prometheus -n staging 9090:9090 &
 
 echo ""
 echo "ArgoCD:   https://localhost:8080"
@@ -20,6 +21,7 @@ echo "Postgres: localhost:5432"
 echo "NATS:     localhost:4222"
 echo "NATS monitoring:     localhost:8222"
 echo "NATS metrics:        localhost:7777"
+echo "Prometheus:           localhost:9090"
 echo ""
 echo "Press Ctrl+C to stop all."
 
