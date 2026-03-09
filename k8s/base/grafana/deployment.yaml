@@ -21,6 +21,8 @@ spec:
             - containerPort: 3300
               name: web
           env:
+            - name: GF_SERVER_HTTP_PORT
+              value: "3300"
             - name: GF_SECURITY_ADMIN_USER
               valueFrom:
                 secretKeyRef:
