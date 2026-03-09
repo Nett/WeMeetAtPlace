@@ -1,18 +1,18 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
-  const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.NATS,
-      options: {
-        servers: [process.env.NATS_URL ?? 'nats://localhost:4222'],
-      },
-    },
-  );
-  await app.listen();
+  const app = await NestFactory.create(AppModule);
+  const config = app.get(ConfigService).get<{ url: string }>('NatsEnv');
+  if (!config) throw new Error('NatsEnv configuration is required');
+
+  await app.connectMicroservice<MicroserviceOptions>({
+    transport: Transport.NATS,
+    options: { servers: [config.url] },
+  });
+  await app.startAllMicroservices();
 }
 
 bootstrap();

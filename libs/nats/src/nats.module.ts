@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { ClientProxy, ClientProxyFactory, Transport } from '@nestjs/microservices';
+import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { NatsEnv } from './nats.config';
 
 export const NATS_CLIENT = 'NATS_CLIENT';
@@ -12,10 +12,10 @@ export const NATS_CLIENT = 'NATS_CLIENT';
       provide: NATS_CLIENT,
       useFactory: (configService: ConfigService) => {
         const config = configService.get<{ url: string }>('NatsEnv');
-        const url = config?.url ?? 'nats://localhost:4222';
+        if (!config) throw new Error('NatsEnv configuration is required');
         return ClientProxyFactory.create({
           transport: Transport.NATS,
-          options: { servers: [url] },
+          options: { servers: [config.url] },
         });
       },
       inject: [ConfigService],

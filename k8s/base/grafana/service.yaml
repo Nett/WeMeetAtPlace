@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wemeetatplace-grafana
+  labels:
+    app: wemeetatplace-grafana
+spec:
+  selector:
+    app: wemeetatplace-grafana
+  ports:
+    - name: web
+      port: 3300
+      targetPort: web

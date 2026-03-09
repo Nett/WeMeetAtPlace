@@ -1,5 +1,7 @@
 resources:
   - ../../../base/prometheus
-  - configmap.yaml
+  - ../../../base/grafana
+  - prometheus-configmap.yaml
+  - grafana-datasources-configmap.yaml
 
 namespace: staging

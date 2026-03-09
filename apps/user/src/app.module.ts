@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { join } from 'node:path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { NatsEnv, NatsEnvValidationSchema } from '@app/nats';
 import { PostgresEnvValidationSchema, PostgresModule } from '@app/postgres';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
@@ -10,11 +11,12 @@ import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
+    ConfigModule.forFeature(NatsEnv),
     ConfigModule.forRoot({
       isGlobal: true,
       ignoreEnvFile: ['production', 'staging'].includes(process.env.NODE_ENV || ''),
       envFilePath: join(process.cwd(), 'apps', 'user', '.env'),
-      validationSchema: PostgresEnvValidationSchema,
+      validationSchema: PostgresEnvValidationSchema.concat(NatsEnvValidationSchema),
     }),
     PostgresModule,
     TypeOrmModule.forFeature([User]),

@@ -5,6 +5,7 @@ import { join } from 'node:path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import { NatsEnvValidationSchema } from '@app/nats';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { UserModule } from './user/user.module';
       isGlobal: true,
       ignoreEnvFile: ['production', 'staging'].includes(process.env.NODE_ENV || ''),
       envFilePath: join(process.cwd(), 'apps', 'server', '.env'),
+      validationSchema: NatsEnvValidationSchema,
     }),
     I18nModule.forRoot({
       fallbackLanguage: 'en',
