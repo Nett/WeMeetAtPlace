@@ -1,0 +1,5 @@
+resources:
+  - ../../../base/prometheus
+  - configmap.yaml
+
+namespace: staging

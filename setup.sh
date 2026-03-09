@@ -194,8 +194,17 @@ argocd app create wemeetatplace-apps --upsert \
   --dest-server https://kubernetes.default.svc \
   --dest-namespace staging
 
+ argocd app create wemeetatplace-monitoring --upsert \
+  --project wemeetatplace \
+  --repo git@github.com:Nett/WeMeetAtPlace.git \
+  --path k8s/overlays/staging/monitoring \
+  --dest-server https://kubernetes.default.svc \
+  --dest-namespace staging
+
 argocd app set wemeetatplace-infra --sync-policy automated --auto-prune --self-heal
 argocd app set wemeetatplace-apps --sync-policy automated --auto-prune --self-heal
+argocd app set wemeetatplace-monitoring --sync-policy automated --auto-prune --self-heal
+
 
 echo ""
 echo "=== Syncing (infra first, then apps) ==="
