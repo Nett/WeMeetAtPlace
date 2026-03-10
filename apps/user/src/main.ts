@@ -10,9 +10,11 @@ async function bootstrap() {
 
   await app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.NATS,
-    options: { servers: [config.url] },
+    options: { servers: [config.url], queue: `user-queue-${process.env.K8S_NAMESPACE}-${process.env.NODE_ENV}` },
   });
+
   await app.startAllMicroservices();
+  await app.init();
 }
 
 bootstrap();

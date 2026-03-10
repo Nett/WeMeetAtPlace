@@ -23,6 +23,7 @@ for app_dir in "$APPS_DIR"/*/; do
     server)
       cat > "$env_file" <<EOF
 NODE_ENV=development
+K8S_NAMESPACE=development
 APPLICATION_NAME=WeMeetAtPlace
 POSTGRES_DB=$POSTGRES_DB
 POSTGRES_USER=$POSTGRES_USER
@@ -35,6 +36,7 @@ EOF
     user)
       cat > "$env_file" <<EOF
 NODE_ENV=development
+K8S_NAMESPACE=development
 APPLICATION_NAME=WeMeetAtPlace-User
 PORT=3001
 POSTGRES_DB=$POSTGRES_DB
@@ -48,6 +50,7 @@ EOF
     *)
       cat > "$env_file" <<EOF
 NODE_ENV=development
+K8S_NAMESPACE=development
 APPLICATION_NAME=WeMeetAtPlace-$app_name
 POSTGRES_DB=$POSTGRES_DB
 POSTGRES_USER=$POSTGRES_USER

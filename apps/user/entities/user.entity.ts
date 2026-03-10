@@ -14,14 +14,14 @@ export class User {
     id: number;
 
     @Index({unique: true})
-    @Column({type: 'varchar', length: 100, nullable: false})
+    @Column({type: 'varchar', length: 20, nullable: false})
     nickname: string;
 
     @Index({unique: true})
     @Column({type: 'varchar', length: 150, nullable: false})
     email: string;
 
-    @Column({type: 'varchar', length: 100, nullable: false, select: false})
+    @Column({type: 'varchar', length: 255, nullable: false, select: false})
     password: string;
 
     @Column({ type: 'varchar', length: 1000, nullable: true })

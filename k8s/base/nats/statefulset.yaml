@@ -18,6 +18,11 @@ spec:
       containers:
         - name: nats
           image: nats:2.12
+          env:
+            - name: K8S_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           args:
             - --jetstream
             - --store_dir=/data
@@ -38,6 +43,11 @@ spec:
               mountPath: /data
         - name: nats-exporter
           image: natsio/prometheus-nats-exporter:latest
+          env:
+            - name: K8S_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
           args:
             - -varz
             - -connz

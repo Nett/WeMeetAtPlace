@@ -36,6 +36,7 @@
     "@nestjs/microservices": "^11.1.16",
     "@nestjs/platform-express": "^11.1.16",
     "@nestjs/typeorm": "^11.0.0",
+    "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.15.1",
     "hbs": "^4.2.0",
@@ -53,6 +54,7 @@
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
+    "@types/bcrypt": "^6.0.0",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.10.7",
@@ -94,9 +96,10 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/postgres(|/.*)$": "<rootDir>/libs/postgres/src/$1",
       "^@app/contracts(|/.*)$": "<rootDir>/libs/contracts/src/$1",
-      "^@app/nats(|/.*)$": "<rootDir>/libs/nats/src/$1"
+      "^@app/nats(|/.*)$": "<rootDir>/libs/nats/src/$1",
+      "^@app/postgres(|/.*)$": "<rootDir>/libs/postgres/src/$1",
+      "^@app/tools(|/.*)$": "<rootDir>/libs/tools/src/$1"
     }
   },
   "engines": {

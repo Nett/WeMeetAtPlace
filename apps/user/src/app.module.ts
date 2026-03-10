@@ -5,8 +5,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { NatsEnv, NatsEnvValidationSchema } from '@app/nats';
 import { PostgresEnvValidationSchema, PostgresModule } from '@app/postgres';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from '../entities/user.entity';
 import { UserModule } from './user/user.module';
 
 @Module({
@@ -19,7 +17,6 @@ import { UserModule } from './user/user.module';
       validationSchema: PostgresEnvValidationSchema.concat(NatsEnvValidationSchema),
     }),
     PostgresModule,
-    TypeOrmModule.forFeature([User]),
     UserModule,
   ],
   controllers: [AppController],

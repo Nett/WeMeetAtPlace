@@ -10,35 +10,6 @@
     "tsConfigPath": "apps/server/tsconfig.app.json"
   },
   "projects": {
-    "server": {
-      "type": "application",
-      "root": "apps/server",
-      "entryFile": "apps/server/src/main",
-      "sourceRoot": "apps/server/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/server/tsconfig.app.json",
-        "assets": ["i18n/**/*", "views/**/*", "public/**/*"],
-        "watchAssets": true
-      }
-    },
-    "user": {
-      "type": "application",
-      "root": "apps/user",
-      "entryFile": "apps/user/src/main",
-      "sourceRoot": "apps/user/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/user/tsconfig.app.json"
-      }
-    },
-    "postgres": {
-      "type": "library",
-      "root": "libs/postgres",
-      "entryFile": "index",
-      "sourceRoot": "libs/postgres/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/postgres/tsconfig.lib.json"
-      }
-    },
     "contracts": {
       "type": "library",
       "root": "libs/contracts",
@@ -55,6 +26,48 @@
       "sourceRoot": "libs/nats/src",
       "compilerOptions": {
         "tsConfigPath": "libs/nats/tsconfig.lib.json"
+      }
+    },
+    "postgres": {
+      "type": "library",
+      "root": "libs/postgres",
+      "entryFile": "index",
+      "sourceRoot": "libs/postgres/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/postgres/tsconfig.lib.json"
+      }
+    },
+    "server": {
+      "type": "application",
+      "root": "apps/server",
+      "entryFile": "apps/server/src/main",
+      "sourceRoot": "apps/server/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/server/tsconfig.app.json",
+        "assets": [
+          "i18n/**/*",
+          "views/**/*",
+          "public/**/*"
+        ],
+        "watchAssets": true
+      }
+    },
+    "tools": {
+      "type": "library",
+      "root": "libs/tools",
+      "entryFile": "index",
+      "sourceRoot": "libs/tools/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/tools/tsconfig.lib.json"
+      }
+    },
+    "user": {
+      "type": "application",
+      "root": "apps/user",
+      "entryFile": "apps/user/src/main",
+      "sourceRoot": "apps/user/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/user/tsconfig.app.json"
       }
     }
   }
