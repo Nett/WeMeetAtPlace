@@ -1,0 +1,14 @@
+{
+    "nickname_required": "Нікнейм є обов'язковим",
+    "nickname_min_length": "Нікнейм повинен бути не менше {constraints.0} символів",
+    "nickname_max_length": "Нікнейм не може бути довшим за {constraints.0} символів",
+    "email_required": "Email є обов'язковим",
+    "email_invalid": "Email є недійсним",
+    "email_max_length": "Email не може бути довшим за {constraints.0} символів",
+    "password_required": "Пароль є обов'язковим",
+    "password_min_length": "Пароль повинен бути не менше {constraints.0} символів",
+    "password_max_length": "Пароль не може бути довшим за {constraints.0} символів",
+    "passwords_do_not_match": "Паролі не збігаються",
+    "user_email_duplicate": "Користувач з таким email вже існує",
+    "user_nickname_duplicate": "Користувач з таким нікнеймом вже існує"
+}

@@ -4,16 +4,18 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'node:path';
 import hbs = require('hbs');
 import { I18nService,I18nValidationPipe, I18nValidationExceptionFilter } from 'nestjs-i18n';
+import { I18nHttpExceptionFilter } from '@app/tools';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
   app.setGlobalPrefix('api', { exclude: ['/', '/health', 'public', 'views'] });
 
-  app.useGlobalPipes(new 
-    I18nValidationPipe({ whitelist: true, transform: true, stopAtFirstError: true }));
+  app.useGlobalPipes(
+    new I18nValidationPipe({ whitelist: true, transform: true, stopAtFirstError: true })
+  );
 
-  app.useGlobalFilters(new I18nValidationExceptionFilter({ detailedErrors: false }));
+  app.useGlobalFilters(new I18nHttpExceptionFilter());
 
   const isContainer = ['production', 'staging'].includes(process.env.NODE_ENV || '');
   const viewsDir = isContainer

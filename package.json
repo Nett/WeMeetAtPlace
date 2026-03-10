@@ -16,6 +16,8 @@
     "dev": "nest start --watch",
     "dev:server": "nest start server --watch",
     "dev:user": "nest start user --watch",
+    "dev:all": "pnpm run dev:server & pnpm run dev:user & wait",
+    "start:all": "pnpm run start:server & pnpm run start:user & wait",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node apps/server/dist/apps/server/src/main.js",
     "lint": "eslint \"{apps,libs}/**/*.ts\" --fix",

@@ -8,5 +8,7 @@
     "password_required": "Password is required",
     "password_min_length": "Password must be at least {constraints.0} characters long",
     "password_max_length": "Password cannot be longer than {constraints.0} characters",
-    "passwords_do_not_match": "Passwords do not match"
+    "passwords_do_not_match": "Passwords do not match",
+    "user_email_duplicate": "User with this email already exists",
+    "user_nickname_duplicate": "User with this nickname already exists"
 }

@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from '@app/contracts';
 import { PasswordService } from '@app/tools';
 import { User } from '../../entities/user.entity';
+import { i18nValidationMessage } from 'nestjs-i18n';
 
 @Injectable()
 export class UserService {
@@ -19,10 +20,10 @@ export class UserService {
 console.log('ExistingUser', existingUser);
 
     if (existingUser?.email === dto.email) {
-      return { ok: false, error: { code: 'CONFLICT', message: 'User with this email already exists' } };
+      return { ok: false, error: { code: 'CONFLICT', message: 'validation.user_email_duplicate' } };
     }
     if (existingUser?.nickname === dto.nickname) {
-      return { ok: false, error: { code: 'CONFLICT', message: 'User with this nickname already exists' } };
+      return { ok: false, error: { code: 'CONFLICT', message: 'validation.user_nickname_duplicate' } };
     }
 
     const hashedPassword = await this.passwordService.hash(dto.password);

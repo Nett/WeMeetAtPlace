@@ -10,7 +10,15 @@ async function bootstrap() {
 
   await app.connectMicroservice<MicroserviceOptions>({
     transport: Transport.NATS,
-    options: { servers: [config.url], queue: `user-queue-${process.env.K8S_NAMESPACE}-${process.env.NODE_ENV}` },
+    options: { 
+      servers: [config.url], 
+      queue: `user-queue-${process.env.K8S_NAMESPACE}-${process.env.NODE_ENV}`,
+      // @todo add reconnect tuning
+      // reconnect tuning (optional)
+      // maxReconnectAttempts: -1,
+      // reconnectTimeWait: 1000,
+      // timeout: 2000,
+    },
   });
 
   await app.startAllMicroservices();
