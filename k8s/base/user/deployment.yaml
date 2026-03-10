@@ -19,6 +19,7 @@ spec:
       containers:
         - name: user
           image: ghcr.io/nett/wemeetatplace-user:latest
+          imagePullPolicy: Always
           envFrom:
             - secretRef:
                 name: wemeetatplace-postgres
