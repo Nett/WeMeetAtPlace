@@ -17,7 +17,7 @@ jobs:
           cut-off: 2d
           keep-n-most-recent: 3
           dry-run: true
-          token: ${{ secrets.WeMeetAtPlace_APP }}
+          token: ${{ secrets.WEMEETATPLACE_APP }}
 
       - name: Cleanup user images
         uses: snok/container-retention-policy@v3.0.1
@@ -27,4 +27,4 @@ jobs:
           cut-off: 2d
           keep-n-most-recent: 3
           dry-run: true
-          token: ${{ secrets.WeMeetAtPlace_APP }}
+          token: ${{ secrets.WEMEETATPLACE_APP }}
