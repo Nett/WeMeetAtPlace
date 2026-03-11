@@ -1,11 +1,13 @@
 resources:
-  - ../../../base/user
+- ../../../base/user
 
 namespace: staging
 
 images:
-  - name: ghcr.io/nett/wemeetatplace-user
-    newTag: latest
+- name: ghcr.io/nett/wemeetatplace-user
+  newTag: 4bc8d0b
 
 patches:
-  - path: deployment-patch.yaml
+- path: deployment-patch.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
