@@ -16,7 +16,7 @@ jobs:
           image-names: "wemeetatplace-server"
           cut-off: 2d
           keep-n-most-recent: 3
-          dry-run: true
+          dry-run: false
           token: ${{ secrets.WEMEETATPLACE_APP }}
 
       - name: Cleanup user images
@@ -26,5 +26,5 @@ jobs:
           image-names: "wemeetatplace-user"
           cut-off: 2d
           keep-n-most-recent: 3
-          dry-run: true
+          dry-run: false
           token: ${{ secrets.WEMEETATPLACE_APP }}
