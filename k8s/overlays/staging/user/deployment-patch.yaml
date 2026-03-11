@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wemeetatplace-server
+  name: wemeetatplace-user
 spec:
   replicas: 1
   template:
     spec:
       containers:
-        - name: server
+        - name: user
           imagePullPolicy: Always
           env:
             - name: K8S_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            - name: APPLICATION_NAME
-              value: WeMeetAt.Place
+            - name: NATS_URL
+              value: nats://wemeetatplace-nats:4222
             - name: NODE_ENV
               value: staging

@@ -3,5 +3,9 @@ resources:
 
 namespace: staging
 
+images:
+  - name: ghcr.io/nett/wemeetatplace-server
+    newTag: latest
+
 patches:
   - path: deployment-patch.yaml

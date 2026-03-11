@@ -2,7 +2,8 @@
 set -e
 
 APP="${2:-server}"
-IMAGE="ghcr.io/nett/wemeetatplace-${APP}:latest"
+TAG="${3:-$(git rev-parse --short HEAD)}"
+IMAGE="ghcr.io/nett/wemeetatplace-${APP}:${TAG}"
 
 case "$1" in
   login)
@@ -20,14 +21,17 @@ case "$1" in
     docker push "$IMAGE"
     ;;
   *)
-    echo "Usage: ./docker.sh {login|build|push|deploy} [server|user]"
+    echo "Usage: ./docker.sh {login|build|push|deploy} [server|user] [tag]"
     echo ""
     echo "  login   - authenticate with GitHub Container Registry"
     echo "  build   - build the Docker image (default: server)"
     echo "  push    - push the image to ghcr.io"
     echo "  deploy  - build and push in one step"
     echo ""
-    echo "Examples: ./docker.sh build server   ./docker.sh deploy user"
+    echo "  tag     - optional, defaults to short git SHA"
+    echo ""
+    echo "Examples: ./docker.sh build server"
+    echo "          ./docker.sh deploy user v1.2.3"
     exit 1
     ;;
 esac

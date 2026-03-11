@@ -1,0 +1,19 @@
+name: Cleanup old images
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: snok/container-retention-policy@v3
+        with:
+          image-names: |
+            wemeetatplace-server
+            wemeetatplace-user
+          cut-off: 2d
+          keep-n: 3
+          token: ${{ secrets.GITHUB_TOKEN }}
