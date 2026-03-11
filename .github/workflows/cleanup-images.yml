@@ -5,15 +5,20 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:
 
+permissions:
+  packages: write
+
 jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - uses: snok/container-retention-policy@v3
+      - uses: snok/container-retention-policy@v3.0.1
         with:
+          account: nett
           image-names: |
             wemeetatplace-server
             wemeetatplace-user
           cut-off: 2d
-          keep-n: 3
+          keep-n-most-recent: 3
+          dry-run: true
           token: ${{ secrets.GITHUB_TOKEN }}
