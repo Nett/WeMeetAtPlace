@@ -37,6 +37,18 @@ fi
 kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 
 echo ""
+echo "=== Installing ArgoCD Image Updater ==="
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj-labs/argocd-image-updater/stable/manifests/install.yaml
+
+echo ""
+echo "=== Waiting for ArgoCD Image Updater to be ready ==="
+kubectl rollout status deployment argocd-image-updater -n argocd --timeout=120s
+
+echo ""
+echo "=== Applying ArgoCD Image Updater config ==="
+kubectl apply -f k8s/argocd/image-updater.yaml
+
+echo ""
 echo "=== Restarting ArgoCD deployments (prevents stale init container issues) ==="
 kubectl rollout restart deployment argocd-repo-server -n argocd
 
@@ -205,6 +217,22 @@ argocd app set wemeetatplace-infra --sync-policy automated --auto-prune --self-h
 argocd app set wemeetatplace-apps --sync-policy automated --auto-prune --self-heal
 argocd app set wemeetatplace-monitoring --sync-policy automated --auto-prune --self-heal
 
+echo ""
+echo "=== Patching wemeetatplace-apps for Image Updater (kustomize + hard refresh) ==="
+kubectl patch application wemeetatplace-apps -n argocd --type merge -p '{
+  "spec": {
+    "source": {
+      "repoURL": "git@github.com:Nett/WeMeetAtPlace.git",
+      "path": "k8s/overlays/staging/apps",
+      "targetRevision": "main"
+    }
+  },
+  "metadata": {
+    "annotations": {
+      "argocd.argoproj.io/refresh": "hard"
+    }
+  }
+}'
 
 echo ""
 echo "=== Syncing (infra first, then apps) ==="

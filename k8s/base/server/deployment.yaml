@@ -18,7 +18,7 @@ spec:
         - name: ghcr-secret
       containers:
         - name: server
-          image: ghcr.io/nett/wemeetatplace-server:latest
+          image: ghcr.io/nett/wemeetatplace-server
           imagePullPolicy: Always
           envFrom:
             - secretRef:

@@ -31,4 +31,5 @@ console.log('Result', result);
     return result.data;
 
   }
+  //@todo: add user login endpoint
 }

@@ -1,0 +1,31 @@
+apiVersion: argocd-image-updater.argoproj.io/v1alpha1
+kind: ImageUpdater
+metadata:
+  name: wemeetatplace-staging
+  namespace: argocd
+spec:
+  writeBackConfig:
+    method: argocd
+
+  applicationRefs:
+    - namePattern: "wemeetatplace-apps"
+      images:
+        - alias: server
+          imageName: ghcr.io/nett/wemeetatplace-server
+          commonUpdateSettings:
+            updateStrategy: newest-build
+            allowTags: "regexp:^[0-9a-f]{7}$"
+            pullSecret: "pullsecret:argocd/ghcr-creds"
+            platforms:
+              - linux/amd64
+              - linux/arm64
+
+        - alias: user
+          imageName: ghcr.io/nett/wemeetatplace-user
+          commonUpdateSettings:
+            updateStrategy: newest-build
+            allowTags: "regexp:^[0-9a-f]{7}$"
+            pullSecret: "pullsecret:argocd/ghcr-creds"
+            platforms:
+              - linux/amd64
+              - linux/arm64

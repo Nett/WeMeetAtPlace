@@ -3,10 +3,6 @@ resources:
 
 namespace: staging
 
-images:
-- name: ghcr.io/nett/wemeetatplace-user
-  newTag: a49ea48
-
 patches:
 - path: deployment-patch.yaml
 apiVersion: kustomize.config.k8s.io/v1beta1
