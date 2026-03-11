@@ -12,7 +12,7 @@ jobs:
       - name: Cleanup server images
         uses: snok/container-retention-policy@v3.0.1
         with:
-          account: nett
+          account: user
           image-names: "wemeetatplace-server"
           cut-off: 2d
           keep-n-most-recent: 3
@@ -22,7 +22,7 @@ jobs:
       - name: Cleanup user images
         uses: snok/container-retention-policy@v3.0.1
         with:
-          account: nett
+          account: user
           image-names: "wemeetatplace-user"
           cut-off: 2d
           keep-n-most-recent: 3
