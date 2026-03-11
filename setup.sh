@@ -224,7 +224,7 @@ kubectl patch application wemeetatplace-apps -n argocd --type merge -p '{
     "source": {
       "repoURL": "git@github.com:Nett/WeMeetAtPlace.git",
       "path": "k8s/overlays/staging/apps",
-      "targetRevision": "main"
+      "targetRevision": "staging"
     }
   },
   "metadata": {

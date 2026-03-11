@@ -2,26 +2,46 @@ name: Build and Deploy
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - staging
+      - feature/*
 
 permissions:
-  contents: write
+  contents: read
   packages: write
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
+
+    outputs:
+      image_tag: ${{ steps.tag.outputs.value }}
+      image_prefix: ${{ steps.tag.outputs.prefix }}
+      owner: ${{ steps.owner.outputs.value }}
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set short SHA
-        id: sha
-        run: echo "short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
-
       - name: Set lowercase owner
         id: owner
         run: echo "value=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+
+      - name: Set image tag
+        id: tag
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+          if [ "$BRANCH" = "main" ]; then
+            PREFIX="main"
+          elif [ "$BRANCH" = "staging" ]; then
+            PREFIX="staging"
+          else
+            SAFE_BRANCH=$(echo "$BRANCH" | tr '/' '-' | tr '[:upper:]' '[:lower:]')
+            PREFIX="$SAFE_BRANCH"
+          fi
+
+          echo "prefix=$PREFIX" >> "$GITHUB_OUTPUT"
+          echo "value=${PREFIX}-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -43,7 +63,7 @@ jobs:
           file: apps/server/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/${{ steps.owner.outputs.value }}/wemeetatplace-server:${{ steps.sha.outputs.short }}
+          tags: ghcr.io/${{ steps.owner.outputs.value }}/wemeetatplace-server:${{ steps.tag.outputs.value }}
 
       - name: Build and push user
         uses: docker/build-push-action@v6
@@ -52,4 +72,4 @@ jobs:
           file: apps/user/Dockerfile
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/${{ steps.owner.outputs.value }}/wemeetatplace-user:${{ steps.sha.outputs.short }}
+          tags: ghcr.io/${{ steps.owner.outputs.value }}/wemeetatplace-user:${{ steps.tag.outputs.value }}
