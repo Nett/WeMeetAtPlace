@@ -12,12 +12,21 @@ jobs:
   cleanup:
     runs-on: ubuntu-latest
     steps:
-      - uses: snok/container-retention-policy@v3.0.1
+      - name: Cleanup server images
+        uses: snok/container-retention-policy@v3.0.1
         with:
           account: nett
-          image-names: |
-            wemeetatplace-server
-            wemeetatplace-user
+          image-names: "wemeetatplace-server"
+          cut-off: 2d
+          keep-n-most-recent: 3
+          dry-run: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Cleanup user images
+        uses: snok/container-retention-policy@v3.0.1
+        with:
+          account: nett
+          image-names: "wemeetatplace-user"
           cut-off: 2d
           keep-n-most-recent: 3
           dry-run: true
