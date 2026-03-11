@@ -19,6 +19,10 @@ jobs:
         id: sha
         run: echo "short=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
 
+      - name: Set lowercase owner
+        id: owner
+        run: echo "value=${GITHUB_REPOSITORY_OWNER,,}" >> "$GITHUB_OUTPUT"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -35,7 +39,7 @@ jobs:
           context: .
           file: apps/server/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/wemeetatplace-server:${{ steps.sha.outputs.short }}
+          tags: ghcr.io/${{ steps.owner.outputs.value }}/wemeetatplace-server:${{ steps.sha.outputs.short }}
 
       - name: Build and push user
         uses: docker/build-push-action@v6
@@ -43,7 +47,7 @@ jobs:
           context: .
           file: apps/user/Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/wemeetatplace-user:${{ steps.sha.outputs.short }}
+          tags: ghcr.io/${{ steps.owner.outputs.value }}/wemeetatplace-user:${{ steps.sha.outputs.short }}
 
       - name: Install kustomize
         run: |
@@ -53,10 +57,10 @@ jobs:
       - name: Update Kustomize image tags
         run: |
           cd k8s/overlays/staging/server
-          kustomize edit set image ghcr.io/${{ github.repository_owner }}/wemeetatplace-server:${{ steps.sha.outputs.short }}
+          kustomize edit set image ghcr.io/${{ steps.owner.outputs.value }}/wemeetatplace-server:${{ steps.sha.outputs.short }}
 
           cd ../user
-          kustomize edit set image ghcr.io/${{ github.repository_owner }}/wemeetatplace-user:${{ steps.sha.outputs.short }}
+          kustomize edit set image ghcr.io/${{ steps.owner.outputs.value }}/wemeetatplace-user:${{ steps.sha.outputs.short }}
 
       - name: Commit and push
         run: |
