@@ -5,9 +5,6 @@ on:
     - cron: '0 2 * * *'
   workflow_dispatch:
 
-permissions:
-  packages: write
-
 jobs:
   cleanup:
     runs-on: ubuntu-latest
@@ -20,7 +17,7 @@ jobs:
           cut-off: 2d
           keep-n-most-recent: 3
           dry-run: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.WeMeetAtPlace_APP }}
 
       - name: Cleanup user images
         uses: snok/container-retention-policy@v3.0.1
@@ -30,4 +27,4 @@ jobs:
           cut-off: 2d
           keep-n-most-recent: 3
           dry-run: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.WeMeetAtPlace_APP }}
