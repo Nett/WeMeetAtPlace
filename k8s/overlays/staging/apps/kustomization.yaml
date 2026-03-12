@@ -8,10 +8,4 @@ resources:
 
 namespace: staging
 patches:
-  - target:
-      kind: Ingress
-      name: wemeetatplace
-    patch: |-
-      - op: replace
-        path: /spec/rules/0/host
-        value: staging.wemeetatplace.local
+  - path: ingress-patch.yaml
