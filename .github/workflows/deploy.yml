@@ -12,13 +12,41 @@ permissions:
   packages: write
 
 jobs:
-  build:
+  changes:
     runs-on: ubuntu-latest
-
     outputs:
-      image_tag: ${{ steps.tag.outputs.value }}
-      image_prefix: ${{ steps.tag.outputs.prefix }}
-      owner: ${{ steps.owner.outputs.value }}
+      server: ${{ steps.filter.outputs.server }}
+      user: ${{ steps.filter.outputs.user }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Detect changed paths
+        id: filter
+        uses: dorny/paths-filter@v3
+        with:
+          filters: |
+            server:
+              - 'apps/server/**'
+              - 'libs/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'tsconfig*.json'
+              - 'nest-cli.json'
+
+            user:
+              - 'apps/user/**'
+              - 'libs/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'tsconfig*.json'
+              - 'nest-cli.json'
+
+  build:
+    needs: changes
+    runs-on: ubuntu-latest
+    if: needs.changes.outputs.server == 'true' || needs.changes.outputs.user == 'true'
 
     steps:
       - uses: actions/checkout@v4
@@ -36,10 +64,8 @@ jobs:
           elif [ "$BRANCH" = "staging" ]; then
             PREFIX="staging"
           else
-            SAFE_BRANCH=$(echo "$BRANCH" | tr '/' '-' | tr '[:upper:]' '[:lower:]')
-            PREFIX="$SAFE_BRANCH"
+            PREFIX="$(echo "$BRANCH" | tr '/' '-' | tr '[:upper:]' '[:lower:]')"
           fi
-
           echo "prefix=$PREFIX" >> "$GITHUB_OUTPUT"
           echo "value=${PREFIX}-${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
 
@@ -57,6 +83,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and push server
+        if: needs.changes.outputs.server == 'true'
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -66,6 +93,7 @@ jobs:
           tags: ghcr.io/${{ steps.owner.outputs.value }}/wemeetatplace-server:${{ steps.tag.outputs.value }}
 
       - name: Build and push user
+        if: needs.changes.outputs.user == 'true'
         uses: docker/build-push-action@v6
         with:
           context: .
