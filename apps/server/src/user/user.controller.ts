@@ -1,7 +1,7 @@
 import { BadRequestException, Body, ConflictException, Controller, Inject, InternalServerErrorException, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom, timeout } from 'rxjs';
-import { CreateUserDto, CREATE_USER_PATTERN } from '@app/contracts';
+import { CreateUserDto, NATS_CREATE_USER_PATTERN } from '@app/contracts';
 import { NATS_CLIENT, NATS_TIMEOUT } from '@app/nats';
 
 @Controller('user')
@@ -11,7 +11,7 @@ export class UserController {
   @Post()
   async create(@Body() dto: CreateUserDto) {
     const result = await firstValueFrom(
-      this.natsClient.send(CREATE_USER_PATTERN, dto).pipe(timeout(NATS_TIMEOUT))
+      this.natsClient.send(NATS_CREATE_USER_PATTERN, dto).pipe(timeout(NATS_TIMEOUT))
     );
 console.log('Result', result);
     if (!result?.ok) {

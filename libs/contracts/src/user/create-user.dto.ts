@@ -2,7 +2,7 @@ import { IsDefined, IsEmail, IsNotEmpty, IsString, MaxLength, MinLength } from '
 import { i18nValidationMessage } from 'nestjs-i18n';
 import { Match } from '../validators/match.decorator';
 
-export const CREATE_USER_PATTERN = `${process.env.NODE_ENV}_user.create`;
+export const NATS_CREATE_USER_PATTERN = `${process.env.K8S_NAMESPACE}.user.create`;
 
 export class CreateUserDto {
   @IsDefined({ message: i18nValidationMessage('validation.nickname_required') })

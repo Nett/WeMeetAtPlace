@@ -12,7 +12,7 @@ async function bootstrap() {
     transport: Transport.NATS,
     options: { 
       servers: [config.url], 
-      queue: `user-queue-${process.env.K8S_NAMESPACE}-${process.env.NODE_ENV}`,
+      queue: `user-queue-${process.env.K8S_NAMESPACE}`,
       // @todo add reconnect tuning
       // reconnect tuning (optional)
       // maxReconnectAttempts: -1,

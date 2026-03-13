@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { CreateUserDto } from '@app/contracts';
 import { PasswordService } from '@app/tools';
 import { User } from '../../entities/user.entity';
-import { i18nValidationMessage } from 'nestjs-i18n';
 
 @Injectable()
 export class UserService {

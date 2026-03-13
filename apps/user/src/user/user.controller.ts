@@ -2,15 +2,14 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { CreateUserDto, CREATE_USER_PATTERN } from '@app/contracts';
+import { CreateUserDto, NATS_CREATE_USER_PATTERN } from '@app/contracts';
 import { UserService } from './user.service';
-import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Controller()
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @MessagePattern(CREATE_USER_PATTERN)
+  @MessagePattern(NATS_CREATE_USER_PATTERN)
   async create(@Payload() payload: unknown) {
     const dto = plainToInstance(CreateUserDto, payload);
     const errors = await validate(dto);
