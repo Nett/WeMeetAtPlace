@@ -14,8 +14,8 @@ jobs:
         with:
           account: user
           image-names: "wemeetatplace-server"
-          cut-off: 2d
-          keep-n-most-recent: 3
+          cut-off: 12h
+          keep-n-most-recent: 2
           dry-run: false
           token: ${{ secrets.WEMEETATPLACE_APP }}
 
@@ -24,7 +24,7 @@ jobs:
         with:
           account: user
           image-names: "wemeetatplace-user"
-          cut-off: 2d
-          keep-n-most-recent: 3
+          cut-off: 12h
+          keep-n-most-recent: 2
           dry-run: false
           token: ${{ secrets.WEMEETATPLACE_APP }}
