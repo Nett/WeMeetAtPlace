@@ -5,7 +5,8 @@ metadata:
   labels:
     app: wemeetatplace-user
 spec:
-  replicas: 1
+  revisionHistoryLimit: 3
+  replicas: 3
   selector:
     matchLabels:
       app: wemeetatplace-user
