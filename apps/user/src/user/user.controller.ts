@@ -2,7 +2,8 @@ import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload, RpcException } from '@nestjs/microservices';
 import { plainToInstance } from 'class-transformer';
 import { validate } from 'class-validator';
-import { CreateUserDto, NATS_CREATE_USER_PATTERN } from '@app/contracts';
+import { CreateUserDto } from '@app/contracts';
+import { NATS_CREATE_USER_PATTERN } from '@app/nats';
 import { UserService } from './user.service';
 
 @Controller()

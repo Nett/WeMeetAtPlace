@@ -7,7 +7,7 @@ spec:
   template:
     spec:
       containers:
-        - name: user
+        - name: wemeetatplace-user-container
           imagePullPolicy: Always
           env:
             - name: K8S_NAMESPACE

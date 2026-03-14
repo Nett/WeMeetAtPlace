@@ -1,8 +1,8 @@
 import { BadRequestException, Body, ConflictException, Controller, Inject, InternalServerErrorException, Post } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { firstValueFrom, timeout } from 'rxjs';
-import { CreateUserDto, NATS_CREATE_USER_PATTERN } from '@app/contracts';
-import { NATS_CLIENT, NATS_TIMEOUT } from '@app/nats';
+import { CreateUserDto } from '@app/contracts';
+import { NATS_CLIENT, NATS_TIMEOUT, NATS_CREATE_USER_PATTERN } from '@app/nats';
 
 @Controller('user')
 export class UserController {

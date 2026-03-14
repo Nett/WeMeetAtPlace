@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 import { ConfigService } from '@nestjs/config';
 import { AppModule } from './app.module';
+import { NATS_BUS_NAME, NATS_USER_QUEUE } from '@app/nats';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,10 +10,12 @@ async function bootstrap() {
   if (!config) throw new Error('NatsEnv configuration is required');
 
   await app.connectMicroservice<MicroserviceOptions>({
+
     transport: Transport.NATS,
-    options: { 
+    options: {
+      name: NATS_BUS_NAME,
       servers: [config.url], 
-      queue: `user-queue-${process.env.K8S_NAMESPACE}`,
+      queue: NATS_USER_QUEUE,
       // @todo add reconnect tuning
       // reconnect tuning (optional)
       // maxReconnectAttempts: -1,
