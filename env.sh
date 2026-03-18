@@ -9,6 +9,8 @@ echo "=== Fetching Postgres secret from staging namespace ==="
 POSTGRES_DB=$(kubectl get secret wemeetatplace-postgres -n staging -o jsonpath='{.data.POSTGRES_DB}' | base64 -d)
 POSTGRES_USER=$(kubectl get secret wemeetatplace-postgres -n staging -o jsonpath='{.data.POSTGRES_USER}' | base64 -d)
 POSTGRES_PASSWORD=$(kubectl get secret wemeetatplace-postgres -n staging -o jsonpath='{.data.POSTGRES_PASSWORD}' | base64 -d)
+JWT_AUTH_SECRET=$(kubectl get secret wemeetatplace-jwt-secret -n staging -o jsonpath='{.data.JWT_AUTH_SECRET}' | base64 -d)
+JWT_EXPIRES_IN=$(kubectl get secret wemeetatplace-jwt-secret -n staging -o jsonpath='{.data.JWT_EXPIRES_IN}' | base64 -d)
 
 for app_dir in "$APPS_DIR"/*/; do
   app_name=$(basename "$app_dir")
@@ -31,6 +33,8 @@ POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 NATS_URL=nats://localhost:4222
+JWT_AUTH_SECRET="$JWT_AUTH_SECRET"
+JWT_EXPIRES_IN="$JWT_EXPIRES_IN"
 EOF
       ;;
     user)
@@ -45,6 +49,8 @@ POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 NATS_URL=nats://localhost:4222
+JWT_AUTH_SECRET="$JWT_AUTH_SECRET"
+JWT_EXPIRES_IN="$JWT_EXPIRES_IN"
 EOF
       ;;
     *)
@@ -58,6 +64,8 @@ POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 POSTGRES_HOST=localhost
 POSTGRES_PORT=5432
 NATS_URL=nats://localhost:4222
+JWT_AUTH_SECRET="$JWT_AUTH_SECRET"
+JWT_EXPIRES_IN="$JWT_EXPIRES_IN"
 EOF
       ;;
   esac

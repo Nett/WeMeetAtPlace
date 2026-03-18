@@ -10,5 +10,6 @@
     "password_max_length": "Password cannot be longer than {constraints.0} characters",
     "passwords_do_not_match": "Passwords do not match",
     "user_email_duplicate": "User with this email already exists",
-    "user_nickname_duplicate": "User with this nickname already exists"
+    "user_nickname_duplicate": "User with this nickname already exists",
+    "user_nickname_or_pass_incorrect": "User with such login or password does not exist"
 }

@@ -6,6 +6,6 @@ export type ServiceError =
   | { code: 'UNAUTHORIZED'; message: string }
   | { code: 'INTERNAL'; message: string };
 
-export type Result<T> =
+export type NatsResult<T> =
   | { ok: true; data: T }
   | { ok: false; error: ServiceError };

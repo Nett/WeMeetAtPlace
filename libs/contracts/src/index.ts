@@ -1,2 +1,2 @@
-export * from './user/create-user.dto';
+export * from './user/user.dto';
 export * from './service-error';

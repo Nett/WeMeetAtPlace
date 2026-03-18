@@ -10,5 +10,6 @@
     "password_max_length": "Пароль не може бути довшим за {constraints.0} символів",
     "passwords_do_not_match": "Паролі не збігаються",
     "user_email_duplicate": "Користувач з таким email вже існує",
-    "user_nickname_duplicate": "Користувач з таким нікнеймом вже існує"
+    "user_nickname_duplicate": "Користувач з таким нікнеймом вже існує",
+    "user_nickname_or_pass_incorrect": "Користувач з таким нікнеймом або паролем не існує"
 }

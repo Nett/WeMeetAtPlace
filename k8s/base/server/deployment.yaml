@@ -5,7 +5,8 @@ metadata:
   labels:
     app: wemeetatplace-server
 spec:
-  revisionHistoryLimit: 3
+  revisionHistoryLimit: 2
+  replicas: 3
   selector:
     matchLabels:
       app: wemeetatplace-server
@@ -23,6 +24,8 @@ spec:
           envFrom:
             - secretRef:
                 name: wemeetatplace-postgres
+            - secretRef:
+                name: wemeetatplace-jwt-secret
           env:
             - name: K8S_NAMESPACE
               valueFrom:

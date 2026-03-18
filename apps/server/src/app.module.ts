@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { I18nModule, AcceptLanguageResolver } from 'nestjs-i18n';
 import { join } from 'node:path';
@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { NatsEnvValidationSchema } from '@app/nats';
+import { JwtEnvValidationSchema, ToolsModule } from '@app/tools';
 
 @Module({
   imports: [
@@ -13,7 +14,7 @@ import { NatsEnvValidationSchema } from '@app/nats';
       isGlobal: true,
       ignoreEnvFile: ['production', 'staging'].includes(process.env.NODE_ENV || ''),
       envFilePath: join(process.cwd(), 'apps', 'server', '.env'),
-      validationSchema: NatsEnvValidationSchema,
+      validationSchema: NatsEnvValidationSchema.concat(JwtEnvValidationSchema),
     }),
     I18nModule.forRoot({
       fallbackLanguage: 'en',
@@ -23,6 +24,7 @@ import { NatsEnvValidationSchema } from '@app/nats';
       },
       resolvers: [AcceptLanguageResolver],
     }),
+    ToolsModule,
     UserModule,
   ],
   controllers: [AppController],
