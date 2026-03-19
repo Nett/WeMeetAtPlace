@@ -3,7 +3,7 @@ import { AppModule } from './app.module';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { join } from 'node:path';
 import hbs = require('hbs');
-import { I18nService,I18nValidationPipe } from 'nestjs-i18n';
+import { I18nService, I18nValidationPipe } from 'nestjs-i18n';
 import { I18nHttpExceptionFilter } from '@app/tools';
 
 async function bootstrap() {

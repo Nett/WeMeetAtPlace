@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientProxyFactory, Transport } from '@nestjs/microservices';
 import { NatsEnv } from './nats.config';
-
-export const NATS_CLIENT = 'NATS_CLIENT';
+import { NatsService } from './nats.service';
+import { NATS_CLIENT } from './nats.constant';
 
 @Module({
   imports: [ConfigModule.forFeature(NatsEnv)],
@@ -20,7 +20,8 @@ export const NATS_CLIENT = 'NATS_CLIENT';
       },
       inject: [ConfigService],
     },
+    NatsService
   ],
-  exports: [NATS_CLIENT],
+  exports: [NATS_CLIENT, NatsService],
 })
 export class NatsModule {}

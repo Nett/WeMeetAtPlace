@@ -1,9 +1,9 @@
 import { NatsResult } from '@app/contracts';
-import { BadRequestException, ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, ConflictException, GatewayTimeoutException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class AppService {
-  handleNatsResponse(result: NatsResult<Record<string, unknown>>): Record<string, unknown> {
+  handleNatsResponse<TRes>(result: NatsResult<TRes>): TRes {
     if (!result?.ok) {
       switch (result?.error?.code) {
         case 'VALIDATION':
@@ -12,6 +12,8 @@ export class AppService {
           throw new ConflictException({ ...result.error });
         case 'NOT_FOUND':
           throw new NotFoundException({ ...result.error });
+        case 'TIME_OUT':
+          throw new GatewayTimeoutException({ ...result.error })
         default:
           throw new InternalServerErrorException({
             code: 'INTERNAL',
