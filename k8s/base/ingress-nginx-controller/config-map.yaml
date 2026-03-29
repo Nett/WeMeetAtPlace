@@ -4,5 +4,6 @@ metadata:
   name: ingress-nginx-controller
   namespace: ingress-nginx
 data:
+  hsts: "false"
   limit-req-status-code: "429"
   limit-conn-status-code: "429"
